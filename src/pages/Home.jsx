@@ -1,11 +1,19 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import ProductCard from '../components/ProductCard';
 import heroImg from '../assets/hero.png';
 import watchImg from '../assets/watch.png';
 import bagImg from '../assets/bag.png';
 import { ArrowRight, ShieldCheck, Truck, Award } from 'lucide-react';
 
 const Home = () => {
+  const featuredProducts = [
+    { id: 1, name: 'Minimalist Silver Watch', price: 24900, stock: 3, image: watchImg, category: 'Timepieces' },
+    { id: 2, name: 'Signature Tan Handbag', price: 38500, stock: 12, image: bagImg, category: 'Leather Goods' },
+    { id: 3, name: 'Brushed Steel Chrono', price: 18000, stock: 1, image: watchImg, category: 'Timepieces' },
+    { id: 4, name: 'Weekender Duffle', price: 42000, stock: 0, image: bagImg, category: 'Travel' },
+  ];
+
   return (
     <div className="min-h-screen bg-cream">
       <Navbar />
@@ -56,55 +64,9 @@ const Home = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Product 1 */}
-          <div className="group">
-            <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6">
-              <img src={watchImg} alt="Watch" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-              <div className="absolute top-4 right-4 translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                <button className="bg-white p-3 rounded-full shadow-lg text-offblack hover:text-gold transition-colors">
-                  <ArrowRight size={18} />
-                </button>
-              </div>
-            </div>
-            <p className="text-[10px] uppercase font-bold tracking-widest text-gold mb-2">Timepieces</p>
-            <h3 className="text-sm font-medium text-offblack tracking-wide">Minimalist Silver Watch</h3>
-            <p className="text-sm text-gray-400 mt-1">$2,490.00</p>
-          </div>
-
-          {/* Product 2 */}
-          <div className="group">
-            <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6">
-              <img src={bagImg} alt="Bag" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-              <div className="absolute top-4 right-4 translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
-                <button className="bg-white p-3 rounded-full shadow-lg text-offblack hover:text-gold transition-colors">
-                  <ArrowRight size={18} />
-                </button>
-              </div>
-            </div>
-            <p className="text-[10px] uppercase font-bold tracking-widest text-gold mb-2">Leather Goods</p>
-            <h3 className="text-sm font-medium text-offblack tracking-wide">Signature Tan Handbag</h3>
-            <p className="text-sm text-gray-400 mt-1">$3,850.00</p>
-          </div>
-
-          {/* Product 3 */}
-          <div className="group">
-            <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6">
-              <img src={watchImg} alt="Watch" className="w-full h-full object-cover grayscale brightness-110 transition-transform duration-1000 group-hover:scale-110" />
-            </div>
-            <p className="text-[10px] uppercase font-bold tracking-widest text-gold mb-2">Accessories</p>
-            <h3 className="text-sm font-medium text-offblack tracking-wide">Brushed Steel Chrono</h3>
-            <p className="text-sm text-gray-400 mt-1">$1,800.00</p>
-          </div>
-
-          {/* Product 4 */}
-          <div className="group">
-            <div className="relative aspect-[3/4] overflow-hidden bg-white mb-6">
-              <img src={bagImg} alt="Bag" className="w-full h-full object-cover brightness-95 transition-transform duration-1000 group-hover:scale-110" />
-            </div>
-            <p className="text-[10px] uppercase font-bold tracking-widest text-gold mb-2">Travel</p>
-            <h3 className="text-sm font-medium text-offblack tracking-wide">Weekender Duffle</h3>
-            <p className="text-sm text-gray-400 mt-1">$4,200.00</p>
-          </div>
+          {featuredProducts.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </section>
 

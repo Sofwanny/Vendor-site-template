@@ -4,12 +4,19 @@ import { ShoppingBag } from 'lucide-react';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const [isAdded, setIsAdded] = React.useState(false);
   const isLowStock = product.stock > 0 && product.stock <= 3;
   const isSoldOut = product.stock === 0;
 
+  const handleAddToCart = () => {
+    addToCart(product);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
+
   return (
     <div className="group flex flex-col bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700">
-      {/* Large Image with subtle scale hover */}
+      {/* ... existing image removal for brevity of replace call ... */}
       <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
         <img 
           src={product.image} 
@@ -44,15 +51,25 @@ const ProductCard = ({ product }) => {
         <p className="text-xl text-offblack font-bold mb-6">₦{product.price.toLocaleString()}</p>
         
         <button 
-          onClick={() => addToCart(product)}
-          disabled={isSoldOut}
+          onClick={handleAddToCart}
+          disabled={isSoldOut || isAdded}
           className={`mt-auto w-full py-4 text-[10px] font-bold uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-2 
             ${isSoldOut 
               ? 'bg-stone-100 text-stone-400 cursor-not-allowed' 
-              : 'bg-offblack text-white hover:bg-gold shadow-xl transform active:scale-95'}`}
+              : isAdded 
+                ? 'bg-green-500 text-white'
+                : 'bg-offblack text-white hover:bg-gold shadow-xl transform active:scale-95'}`}
         >
-          <ShoppingBag size={14} />
-          {isSoldOut ? 'Unavailable' : 'Add to Collection'}
+          {isAdded ? (
+            <span className="flex items-center gap-2">
+               ✓ Added to Collection
+            </span>
+          ) : (
+            <>
+              <ShoppingBag size={14} />
+              {isSoldOut ? 'Unavailable' : 'Add to Collection'}
+            </>
+          )}
         </button>
       </div>
     </div>

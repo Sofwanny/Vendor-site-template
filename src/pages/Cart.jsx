@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 import { Trash2, ArrowRight, ArrowLeft, Minus, Plus } from 'lucide-react';
 
 const Cart = () => {
@@ -13,9 +14,9 @@ const Cart = () => {
         <main className="max-w-7xl mx-auto px-4 pt-48 pb-20 text-center">
           <h1 className="text-4xl font-light text-offblack mb-6">Your collection is empty</h1>
           <p className="text-stone-400 mb-12">Discover our curated pieces and start your collection.</p>
-          <a href="/products" className="px-10 py-5 bg-offblack text-white text-xs font-bold uppercase tracking-widest hover:bg-gold transition-all shadow-xl">
+          <Link to="/products" className="px-10 py-5 bg-offblack text-white text-xs font-bold uppercase tracking-widest hover:bg-gold transition-all shadow-xl">
             Explore Collection
-          </a>
+          </Link>
         </main>
       </div>
     );
@@ -62,9 +63,9 @@ const Cart = () => {
               </div>
             ))}
 
-            <a href="/products" className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-offblack transition-colors group">
+            <Link to="/products" className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-offblack transition-colors group">
               <ArrowLeft size={16} className="mr-3 group-hover:-translate-x-2 transition-transform" /> Continue Acquiring
-            </a>
+            </Link>
           </div>
 
           {/* Summary */}
@@ -88,9 +89,9 @@ const Cart = () => {
                 <span className="text-gold">₦{total.toLocaleString()}.00</span>
               </div>
 
-              <a href="/checkout" className="w-full flex items-center justify-center bg-offblack text-white py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-gold transition-all shadow-2xl group">
+              <Link to="/checkout" className="w-full flex items-center justify-center bg-offblack text-white py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-gold transition-all shadow-2xl group">
                 Proceed to Checkout <ArrowRight size={18} className="ml-3 group-hover:translate-x-2 transition-transform" />
-              </a>
+              </Link>
 
               <div className="mt-8 flex items-center justify-center gap-2">
                  <div className="w-2 h-2 rounded-full bg-green-500"></div>

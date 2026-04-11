@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard';
 import heroImg from '../assets/hero.png';
 import watchImg from '../assets/watch.png';
 import bagImg from '../assets/bag.png';
+import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Truck, Award } from 'lucide-react';
 
 const Home = () => {
@@ -39,9 +40,9 @@ const Home = () => {
               Limited Drop Now Live. Experience the intersection of traditional craftsmanship and contemporary silhouette.
             </p>
             <div className="flex space-x-6">
-              <a href="/products" className="px-10 py-5 bg-gold text-white text-sm font-bold uppercase tracking-widest hover:bg-[#A68554] transition-all flex items-center shadow-2xl group">
+              <Link to="/products" className="px-10 py-5 bg-gold text-white text-sm font-bold uppercase tracking-widest hover:bg-[#A68554] transition-all flex items-center shadow-2xl group">
                 Shop Collection <ArrowRight size={18} className="ml-3 group-hover:translate-x-2 transition-transform" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

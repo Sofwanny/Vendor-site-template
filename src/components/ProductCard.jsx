@@ -1,6 +1,7 @@
 import React from 'react';
-import { useCart } from '../context/CartContext';
 import { ShoppingBag } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -16,13 +17,15 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="group flex flex-col bg-white overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-700">
-      {/* ... existing image removal for brevity of replace call ... */}
+      {/* Large Image with subtle scale hover */}
       <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-        />
+        <Link to="/product-details">
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          />
+        </Link>
         
         {/* Indicators */}
         <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -47,7 +50,9 @@ const ProductCard = ({ product }) => {
       {/* Info */}
       <div className="p-6 text-left flex flex-col flex-grow">
         <p className="text-[9px] uppercase font-bold tracking-[0.3em] text-gold mb-2">{product.category}</p>
-        <h3 className="text-lg text-offblack font-light mb-2 group-hover:text-gold transition-colors">{product.name}</h3>
+        <h3 className="text-lg text-offblack font-light mb-2 group-hover:text-gold transition-colors">
+          <Link to="/product-details">{product.name}</Link>
+        </h3>
         <p className="text-xl text-offblack font-bold mb-6">₦{product.price.toLocaleString()}</p>
         
         <button 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 import { CreditCard, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const Checkout = () => {
@@ -81,9 +82,9 @@ const Checkout = () => {
                 </div>
               </section>
 
-              <a href="/success" className="block w-full text-center bg-offblack text-white py-6 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gold transition-all shadow-2xl transform active:scale-[0.98] group">
+              <Link to="/success" className="block w-full text-center bg-offblack text-white py-6 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gold transition-all shadow-2xl transform active:scale-[0.98] group">
                 Pay Securely ₦{total.toLocaleString()} <ArrowRight size={18} className="inline ml-3 group-hover:translate-x-2 transition-transform" />
-              </a>
+              </Link>
             </form>
           </div>
 

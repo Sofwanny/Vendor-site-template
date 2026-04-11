@@ -9,7 +9,9 @@ const ProductCard = ({ product }) => {
   const isLowStock = product.stock > 0 && product.stock <= 3;
   const isSoldOut = product.stock === 0;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation(); // Prevent any parent links from intercepting
+    console.log("Adding to cart:", product.name);
     addToCart(product);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);

@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@config "../tailwind.config.cjs";
+
+@theme {
+  --color-gold: #C8A165;
+  --color-cream: #F8F5F0;
+  --color-offblack: #1A1A1A;
+  
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+:root {
+  --primary: #C8A165;
+  --background: #F8F5F0;
+  --text: #1A1A1A;
+}
+
+body {
+  @apply text-offblack bg-cream antialiased;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F5F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8A165;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A68554;
+}
+
+@keyframes scroll-down {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.animate-scroll-down {
+  animation: scroll-down 2s cubic-bezier(0.76, 0, 0.24, 1) infinite;
+}

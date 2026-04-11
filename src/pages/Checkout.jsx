@@ -1,99 +1,128 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import { CreditCard, Truck, ShieldCheck } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { CreditCard, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const Checkout = () => {
+  const { total, subtotal, deliveryFee } = useCart();
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
-        <div className="flex flex-col lg:flex-row gap-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div className="flex flex-col lg:flex-row gap-20">
           {/* Checkout Form */}
           <div className="flex-[2]">
-            <h1 className="text-3xl font-light tracking-tight text-gray-900 mb-12">Secure Checkout</h1>
+            <h1 className="text-4xl font-light tracking-tight text-offblack mb-16">Secure Checkout</h1>
             
-            <form className="space-y-12">
+            <form className="space-y-16" onSubmit={(e) => e.preventDefault()}>
               {/* Contact Information */}
               <section>
-                <div className="flex items-center space-x-3 mb-6">
-                  <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold">1</span>
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-gray-900">Contact Information</h2>
+                <div className="flex items-center space-x-4 mb-8">
+                  <span className="w-10 h-10 rounded-full border border-gold text-gold flex items-center justify-center text-xs font-bold">01</span>
+                  <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-offblack">Identity & Contact</h2>
                 </div>
-                <div className="grid grid-cols-1 gap-4">
-                  <input type="email" placeholder="Email Address" className="w-full border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <div className="flex items-center space-x-2">
-                    <input type="checkbox" id="newsletter" className="w-4 h-4 border-gray-300 rounded text-black focus:ring-black" />
-                    <label htmlFor="newsletter" className="text-xs text-gray-500">Keep me updated on news and exclusive offers</label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="col-span-2">
+                    <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Full Name</label>
+                    <input type="text" placeholder="e.g. Samuel Adekunle" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Email Address</label>
+                    <input type="email" placeholder="samuel@example.com" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Phone Number</label>
+                    <input type="tel" placeholder="+234 800 000 0000" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                   </div>
                 </div>
               </section>
 
               {/* Shipping Address */}
               <section>
-                <div className="flex items-center space-x-3 mb-6">
-                  <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold">2</span>
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-gray-900">Shipping Address</h2>
+                <div className="flex items-center space-x-4 mb-8">
+                  <span className="w-10 h-10 rounded-full border border-gold text-gold flex items-center justify-center text-xs font-bold">02</span>
+                  <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-offblack">Delivery Destination</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="First Name" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <input type="text" placeholder="Last Name" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <input type="text" placeholder="Address" className="col-span-2 border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <input type="text" placeholder="Apartment, suite, etc. (optional)" className="col-span-2 border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <input type="text" placeholder="City" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
-                  <input type="text" placeholder="Postal Code" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black transition-colors" />
+                <div className="grid grid-cols-1 gap-6">
+                   <div>
+                    <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Shipping Address</label>
+                    <textarea rows="3" placeholder="Street name, Building number, Apartment" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm resize-none"></textarea>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">City</label>
+                      <input type="text" placeholder="Lagos" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">State</label>
+                      <input type="text" placeholder="Lagos State" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    </div>
+                  </div>
                 </div>
               </section>
 
-              {/* Payment */}
+              {/* Payment Section - Visualization */}
               <section>
-                <div className="flex items-center space-x-3 mb-6">
-                  <span className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold">3</span>
-                  <h2 className="text-sm font-bold uppercase tracking-widest text-gray-900">Payment Details</h2>
+                <div className="flex items-center space-x-4 mb-8">
+                  <span className="w-10 h-10 rounded-full border border-gold text-gold flex items-center justify-center text-xs font-bold">03</span>
+                  <h2 className="text-xs font-bold uppercase tracking-[0.3em] text-offblack">Payment Method</h2>
                 </div>
-                <div className="border border-black p-6 bg-gray-50/50">
-                   <div className="flex justify-between items-center mb-6">
-                     <span className="text-sm font-medium">Credit Card</span>
-                     <CreditCard size={20} />
+                <div className="border border-gold p-8 bg-white shadow-xl relative overflow-hidden">
+                   <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full -translate-y-16 translate-x-16"></div>
+                   <div className="flex justify-between items-center mb-10 relative z-10">
+                     <span className="text-sm font-bold tracking-widest uppercase">Paystack Secure Checkout</span>
+                     <CreditCard size={24} className="text-gold" />
                    </div>
-                   <div className="grid grid-cols-2 gap-4">
-                     <input type="text" placeholder="Card Number" className="col-span-2 border border-gray-200 p-4 text-sm focus:outline-none focus:border-black bg-white" />
-                     <input type="text" placeholder="Expiration (MM/YY)" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black bg-white" />
-                     <input type="text" placeholder="Security Code" className="border border-gray-200 p-4 text-sm focus:outline-none focus:border-black bg-white" />
-                   </div>
+                   <p className="text-xs text-stone-400 leading-relaxed max-w-sm mb-0 relative z-10">
+                     You will be redirected to the secure Paystack gateway to complete your transaction using Card, Bank Transfer, or USSD.
+                   </p>
                 </div>
               </section>
 
-              <a href="/success" className="block w-full text-center bg-black text-white py-5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-gray-800 transition-all shadow-2xl">
-                Pay and Complete Order
+              <a href="/success" className="block w-full text-center bg-offblack text-white py-6 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gold transition-all shadow-2xl transform active:scale-[0.98] group">
+                Pay Securely ₦{total.toLocaleString()} <ArrowRight size={18} className="inline ml-3 group-hover:translate-x-2 transition-transform" />
               </a>
             </form>
           </div>
 
           {/* Checkout Info Sidebar */}
-          <div className="flex-1 space-y-12">
-             <div className="bg-gray-50 p-8 rounded-lg">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-6">Order Total</h3>
-                <div className="flex justify-between text-2xl font-bold text-gray-900 mb-2">
-                  <span>USD</span>
-                  <span>$634.00</span>
+          <div className="flex-1 space-y-10">
+             <div className="bg-white p-10 rounded-lg shadow-sm border border-stone-100 sticky top-32">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-stone-400 mb-8 border-b border-stone-100 pb-4">Investment Summary</h3>
+                
+                <div className="space-y-4 mb-10">
+                   <div className="flex justify-between text-sm">
+                      <span className="text-stone-400">Items Total</span>
+                      <span className="font-bold">₦{subtotal.toLocaleString()}</span>
+                   </div>
+                   <div className="flex justify-between text-sm">
+                      <span className="text-stone-400">Delivery</span>
+                      <span className="font-bold">₦{deliveryFee.toLocaleString()}</span>
+                   </div>
                 </div>
-                <p className="text-xs text-gray-400 uppercase tracking-widest">Inclusive of taxes and fees</p>
-             </div>
 
-             <div className="space-y-6 px-4">
-                <div className="flex space-x-4">
-                  <Truck size={20} className="text-gray-900 flex-shrink-0" />
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-1">Express Delivery</h4>
-                    <p className="text-xs text-gray-500">Free delivery worldwide. Estimated arrival: 2-3 business days.</p>
-                  </div>
+                <div className="flex justify-between text-3xl font-bold text-offblack mb-4">
+                  <span className="text-xs font-bold uppercase tracking-widest text-gold self-end mb-2">Total</span>
+                  <span>₦{total.toLocaleString()}</span>
                 </div>
-                <div className="flex space-x-4">
-                  <ShieldCheck size={20} className="text-gray-900 flex-shrink-0" />
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-1">Secure Checkout</h4>
-                    <p className="text-xs text-gray-500">Your transaction is fully encrypted and secure. We never store credit card info.</p>
+                <p className="text-[9px] text-stone-300 uppercase tracking-widest font-bold text-right pt-2 border-t border-stone-100">All prices in Nigerian Naira (NGN)</p>
+                
+                <div className="mt-12 space-y-8">
+                  <div className="flex space-x-5">
+                    <Truck size={20} className="text-gold flex-shrink-0" />
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-offblack mb-1">Express Concierge</h4>
+                      <p className="text-[10px] text-stone-400 leading-relaxed uppercase tracking-wider">Arrival: 2-4 business days.</p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-5">
+                    <ShieldCheck size={20} className="text-gold flex-shrink-0" />
+                    <div>
+                      <h4 className="text-[10px] font-bold uppercase tracking-widest text-offblack mb-1">Guaranteed Authenticity</h4>
+                      <p className="text-[10px] text-stone-400 leading-relaxed uppercase tracking-wider">Every piece comes with a certificate.</p>
+                    </div>
                   </div>
                 </div>
              </div>

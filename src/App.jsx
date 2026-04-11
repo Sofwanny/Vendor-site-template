@@ -7,10 +7,13 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Success from './pages/Success';
 
+import { CartProvider } from './context/CartContext';
+
 function App() {
   return (
-    <Router>
-      <Routes>
+    <CartProvider>
+      <Router>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product-details" element={<ProductDetails />} />
@@ -19,6 +22,7 @@ function App() {
         <Route path="/success" element={<Success />} />
       </Routes>
     </Router>
+    </CartProvider>
   );
 }
 

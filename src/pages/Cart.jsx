@@ -1,89 +1,101 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
-import watchImg from '../assets/watch.png';
-import bagImg from '../assets/bag.png';
-import { Trash2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { Trash2, ArrowRight, ArrowLeft, Minus, Plus } from 'lucide-react';
 
 const Cart = () => {
-  const cartItems = [
-    { id: 1, name: 'Minimal Silver Watch', price: 249, qty: 1, image: watchImg, size: 'M' },
-    { id: 2, name: 'Tan Leather Handbag', price: 385, qty: 1, image: bagImg, size: 'One Size' },
-  ];
+  const { cart, removeFromCart, updateQuantity, subtotal, total, deliveryFee } = useCart();
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+  if (cart.length === 0) {
+    return (
+      <div className="min-h-screen bg-cream">
+        <Navbar />
+        <main className="max-w-7xl mx-auto px-4 pt-48 pb-20 text-center">
+          <h1 className="text-4xl font-light text-offblack mb-6">Your collection is empty</h1>
+          <p className="text-stone-400 mb-12">Discover our curated pieces and start your collection.</p>
+          <a href="/products" className="px-10 py-5 bg-offblack text-white text-xs font-bold uppercase tracking-widest hover:bg-gold transition-all shadow-xl">
+            Explore Collection
+          </a>
+        </main>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream">
       <Navbar />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
-        <h1 className="text-3xl font-light tracking-tight text-gray-900 mb-12">Shopping Bag</h1>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <h1 className="text-3xl font-light tracking-tight text-offblack mb-12">Shopping Collection</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           {/* Cart List */}
           <div className="lg:col-span-2 space-y-8">
-            {cartItems.map((item) => (
-              <div key={item.id} className="flex space-x-6 pb-8 border-b border-gray-100 items-start">
-                <div className="w-32 aspect-[3/4] bg-gray-50 flex-shrink-0">
+            {cart.map((item) => (
+              <div key={item.id} className="flex space-x-8 pb-8 border-b border-stone-100 items-start">
+                <div className="w-32 aspect-[3/4] bg-white flex-shrink-0 shadow-sm">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                 </div>
-                <div className="flex-grow">
-                  <div className="flex justify-between">
-                    <h3 className="text-base font-medium text-gray-900">{item.name}</h3>
-                    <p className="text-base font-medium text-gray-900">${item.price.toFixed(2)}</p>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest">Size: {item.size}</p>
-                  
-                  <div className="flex justify-between items-center mt-8">
-                    <div className="flex items-center space-x-4 text-sm font-medium">
-                      <span className="text-gray-400">Qty:</span>
-                      <span>{item.qty}</span>
+                <div className="flex-grow pt-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-medium text-offblack">{item.name}</h3>
+                      <p className="text-[10px] text-gold mt-1 uppercase font-bold tracking-widest">{item.category}</p>
                     </div>
-                    <button className="text-gray-400 hover:text-red-500 transition-colors">
-                      <Trash2 size={18} />
+                    <p className="text-lg font-bold text-offblack">₦{(item.price * item.quantity).toLocaleString()}</p>
+                  </div>
+                  
+                  <div className="flex justify-between items-center mt-12">
+                    <div className="flex items-center border border-stone-200 px-4 py-2 bg-white">
+                      <button onClick={() => updateQuantity(item.id, -1)} className="text-stone-400 hover:text-offblack transition-colors"><Minus size={14} /></button>
+                      <span className="w-12 text-center text-sm font-bold">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, 1)} className="text-stone-400 hover:text-offblack transition-colors"><Plus size={14} /></button>
+                    </div>
+                    <button 
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-stone-400 hover:text-red-500 transition-colors flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest"
+                    >
+                      <Trash2 size={16} /> Remove
                     </button>
                   </div>
                 </div>
               </div>
             ))}
 
-            <a href="/products" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-black transition-colors group">
-              <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" /> Continue Shopping
+            <a href="/products" className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-offblack transition-colors group">
+              <ArrowLeft size={16} className="mr-3 group-hover:-translate-x-2 transition-transform" /> Continue Acquiring
             </a>
           </div>
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-gray-50 p-8 rounded-lg shadow-sm">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-gray-900 mb-8 pb-4 border-b border-gray-200">Order Summary</h2>
+            <div className="bg-white p-10 rounded-lg shadow-sm sticky top-32 border border-stone-100">
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.3em] text-offblack mb-10 pb-4 border-b border-stone-100">Order Summary</h2>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-6 mb-10">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Subtotal</span>
-                  <span className="text-gray-900 font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="text-stone-400 font-medium">Subtotal</span>
+                  <span className="text-offblack font-bold">₦{subtotal.toLocaleString()}.00</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Shipping</span>
-                  <span className="text-green-600 font-medium uppercase tracking-tighter text-xs font-bold">Free</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Tax</span>
-                  <span className="text-gray-900 font-medium">$0.00</span>
+                  <span className="text-stone-400 font-medium">Delivery Fee</span>
+                  <span className="text-offblack font-bold">₦{deliveryFee.toLocaleString()}.00</span>
                 </div>
               </div>
 
-              <div className="flex justify-between text-lg font-bold text-gray-900 mb-8 pt-4 border-t border-gray-200">
+              <div className="flex justify-between text-2xl font-bold text-offblack mb-10 pt-6 border-t border-stone-100">
                 <span>Total</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span className="text-gold">₦{total.toLocaleString()}.00</span>
               </div>
 
-              <a href="/checkout" className="w-full flex items-center justify-center bg-black text-white py-4 text-sm font-bold uppercase tracking-widest hover:bg-gray-800 transition-all shadow-xl group">
-                Checkout <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
+              <a href="/checkout" className="w-full flex items-center justify-center bg-offblack text-white py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-gold transition-all shadow-2xl group">
+                Proceed to Checkout <ArrowRight size={18} className="ml-3 group-hover:translate-x-2 transition-transform" />
               </a>
 
-              <p className="text-[10px] text-gray-400 text-center mt-6 uppercase tracking-wider">
-                Secured by 256-bit SSL encryption
-              </p>
+              <div className="mt-8 flex items-center justify-center gap-2">
+                 <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                 <span className="text-[9px] text-stone-400 uppercase font-bold tracking-widest">Secure SSL Encrypted Connection</span>
+              </div>
             </div>
           </div>
         </div>

@@ -1,17 +1,18 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import ProductCard from '../components/ProductCard';
 import watchImg from '../assets/watch.png';
 import bagImg from '../assets/bag.png';
 import { Filter, ChevronDown } from 'lucide-react';
 
 const Products = () => {
   const products = [
-    { id: 1, name: 'Minimalist Silver Watch', price: 2490, image: watchImg, category: 'Timepieces' },
-    { id: 2, name: 'Signature Tan Handbag', price: 3850, image: bagImg, category: 'Leather Goods' },
-    { id: 3, name: 'Brushed Steel Chrono', price: 1800, image: watchImg, category: 'Timepieces' },
-    { id: 4, name: 'Weekender Duffle', price: 4200, image: bagImg, category: 'Travel' },
-    { id: 5, name: 'Classic Gold Band', price: 1250, image: watchImg, category: 'Accessories' },
-    { id: 6, name: 'Executive Portfolio', price: 540, image: bagImg, category: 'Leather Goods' },
+    { id: 1, name: 'Dubai Satin Abaya', price: 45000, stock: 3, image: watchImg, category: 'Apparel' },
+    { id: 2, name: 'Signature Tan Handbag', price: 38500, stock: 12, image: bagImg, category: 'Leather Goods' },
+    { id: 3, name: 'Brushed Steel Chrono', price: 18000, stock: 1, image: watchImg, category: 'Timepieces' },
+    { id: 4, name: 'Weekender Duffle', price: 42000, stock: 0, image: bagImg, category: 'Travel' },
+    { id: 5, name: 'Classic Gold Band', price: 12500, stock: 5, image: watchImg, category: 'Accessories' },
+    { id: 6, name: 'Executive Portfolio', price: 54000, stock: 2, image: bagImg, category: 'Leather Goods' },
   ];
 
   return (
@@ -21,7 +22,7 @@ const Products = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
         <header className="mb-16">
           <h1 className="text-5xl font-light tracking-tight text-offblack mb-4">The Collection</h1>
-          <p className="text-stone-500 font-serif italic">Hand-selected pieces for the discerning aesthetic.</p>
+          <p className="text-stone-500 font-serif italic text-lg">Hand-selected pieces for the discerning aesthetic.</p>
         </header>
 
         {/* Filters and Sorting */}
@@ -31,7 +32,7 @@ const Products = () => {
               <Filter size={14} className="mr-2" /> Show Filters
             </button>
             <span className="text-stone-200">|</span>
-            <span className="text-stone-400">6 Masterpieces Found</span>
+            <span className="text-stone-400">{products.length} Masterpieces Found</span>
           </div>
           <div className="flex items-center space-x-3">
             <span className="text-stone-300">Sort by:</span>
@@ -44,28 +45,7 @@ const Products = () => {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
           {products.map((product) => (
-            <div key={product.id} className="group flex flex-col">
-              <div className="relative aspect-[3/4] w-full bg-white overflow-hidden mb-8 shadow-sm group-hover:shadow-2xl transition-all duration-700">
-                <a href={`/product-details`}>
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                  />
-                </a>
-                <div className="absolute top-6 left-6">
-                  <span className="bg-gold text-white px-3 py-1.5 text-[9px] uppercase font-bold tracking-widest shadow-lg">New Arrival</span>
-                </div>
-                <button className="absolute bottom-0 left-0 w-full bg-offblack text-white py-5 text-[10px] font-bold uppercase tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0 hover:bg-gold transition-all duration-300">
-                  Acquire Piece
-                </button>
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] uppercase font-bold tracking-[0.3em] text-gold mb-2">{product.category}</p>
-                <h3 className="text-lg text-offblack font-light mb-1"><a href="/product-details" className="hover:text-gold transition-colors">{product.name}</a></h3>
-                <p className="text-sm text-stone-400 font-light">${product.price.toLocaleString()}.00</p>
-              </div>
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 

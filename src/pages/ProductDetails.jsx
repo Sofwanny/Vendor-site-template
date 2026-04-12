@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import watchImg from '../assets/watch.png';
 import { Minus, Plus, Heart, Share2, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { products } from '../data/products';
 
 const ProductDetails = () => {
   const { addToCart } = useCart();
@@ -11,15 +11,8 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState('M');
   const [isAdded, setIsAdded] = useState(false);
 
-  // Example product - in a real app this would come from a slug/ID
-  const product = {
-    id: 1,
-    name: 'Dubai Satin Abaya',
-    price: 45000,
-    stock: 3,
-    image: watchImg,
-    category: 'Apparel'
-  };
+  // Use the first product from our data array
+  const product = products[0];
 
   const handleAddToCart = () => {
     // Add multiple quantities

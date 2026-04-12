@@ -1,19 +1,10 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
-import watchImg from '../assets/watch.png';
-import bagImg from '../assets/bag.png';
+import { products } from '../data/products';
 import { Filter, ChevronDown } from 'lucide-react';
 
 const Products = () => {
-  const products = [
-    { id: 1, name: 'Dubai Satin Abaya', price: 45000, stock: 3, image: watchImg, category: 'Apparel' },
-    { id: 2, name: 'Signature Tan Handbag', price: 38500, stock: 12, image: bagImg, category: 'Leather Goods' },
-    { id: 3, name: 'Brushed Steel Chrono', price: 18000, stock: 1, image: watchImg, category: 'Timepieces' },
-    { id: 4, name: 'Weekender Duffle', price: 42000, stock: 0, image: bagImg, category: 'Travel' },
-    { id: 5, name: 'Classic Gold Band', price: 12500, stock: 5, image: watchImg, category: 'Accessories' },
-    { id: 6, name: 'Executive Portfolio', price: 54000, stock: 2, image: bagImg, category: 'Leather Goods' },
-  ];
 
   return (
     <div className="min-h-screen bg-cream">

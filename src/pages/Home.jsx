@@ -1,19 +1,13 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
-import heroImg from '../assets/hero.png';
-import watchImg from '../assets/watch.png';
-import bagImg from '../assets/bag.png';
+import heroImg from '../assets/dubai-hero.png';
+import { products } from '../data/products';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, Truck, Award } from 'lucide-react';
 
 const Home = () => {
-  const featuredProducts = [
-    { id: 1, name: 'Minimalist Silver Watch', price: 24900, stock: 3, image: watchImg, category: 'Timepieces' },
-    { id: 2, name: 'Signature Tan Handbag', price: 38500, stock: 12, image: bagImg, category: 'Leather Goods' },
-    { id: 3, name: 'Brushed Steel Chrono', price: 18000, stock: 1, image: watchImg, category: 'Timepieces' },
-    { id: 4, name: 'Weekender Duffle', price: 42000, stock: 0, image: bagImg, category: 'Travel' },
-  ];
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <div className="min-h-screen bg-cream">
@@ -24,24 +18,24 @@ const Home = () => {
         <div className="absolute inset-0 z-0">
           <img 
             src={heroImg} 
-            alt="Luxury Ready-to-Wear" 
-            className="w-full h-full object-cover"
+            alt="Dubai Luxury Abayas" 
+            className="w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-black/10"></div>
+          <div className="absolute inset-0 bg-black/30 md:bg-black/20"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="max-w-2xl">
-            <span className="inline-block text-xs font-bold tracking-[0.4em] uppercase text-white/80 mb-6">Exclusively Curated</span>
-            <h1 className="text-6xl md:text-9xl font-light tracking-tight text-white mb-8 leading-none">
-              Luxury <br /> <span className="font-serif italic">Ready-to-Wear</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mt-16 md:mt-0">
+          <div className="max-w-2xl bg-black/10 md:bg-transparent p-6 md:p-0 rounded-2xl backdrop-blur-sm md:backdrop-blur-none border border-white/10 md:border-none">
+            <span className="inline-block text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase text-gold mb-4 md:mb-6 drop-shadow-md">Dubai Exclusive</span>
+            <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-light tracking-tight text-white mb-6 md:mb-8 leading-none drop-shadow-lg">
+              Emirates <br className="hidden sm:block" /> <span className="font-serif italic">Elegance</span>
             </h1>
-            <p className="text-xl text-white/90 mb-10 max-w-md font-light leading-relaxed">
-              Limited Drop Now Live. Experience the intersection of traditional craftsmanship and contemporary silhouette.
+            <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-md font-light leading-relaxed drop-shadow-md">
+              The Midnight Drop. Experience the intersection of absolute luxury, traditional modesty, and contemporary Dubai silhouettes.
             </p>
-            <div className="flex space-x-6">
-              <Link to="/products" className="px-10 py-5 bg-gold text-white text-sm font-bold uppercase tracking-widest hover:bg-[#A68554] transition-all flex items-center shadow-2xl group">
-                Shop Collection <ArrowRight size={18} className="ml-3 group-hover:translate-x-2 transition-transform" />
+            <div className="flex">
+              <Link to="/products" className="px-8 py-4 md:px-10 md:py-5 bg-gold text-white text-[10px] md:text-sm font-bold uppercase tracking-widest hover:bg-[#A68554] transition-all flex items-center shadow-2xl group w-full sm:w-auto justify-center">
+                Shop The Collection <ArrowRight size={18} className="ml-3 group-hover:translate-x-2 transition-transform" />
               </Link>
             </div>
           </div>

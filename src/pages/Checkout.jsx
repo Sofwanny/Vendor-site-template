@@ -3,21 +3,53 @@ import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 import { CreditCard, Truck, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { usePaystackPayment } from 'react-paystack';
 
 const Checkout = () => {
   const { total, subtotal, deliveryFee } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: ''
+  });
   const navigate = useNavigate();
 
-  const handlePayment = (e) => {
+  // Paystack Configuration
+  const config = {
+    reference: (new Date()).getTime().toString(),
+    email: formData.email,
+    amount: total * 100, // Amount in KOBO
+    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const onSuccess = (reference) => {
+    console.log("Payment Successful", reference);
+    setIsProcessing(false);
+    navigate('/success');
+  };
+
+  const onClose = () => {
+    console.log("Payment Closed");
+    setIsProcessing(false);
+  };
+
+  const initializePayment = usePaystackPayment(config);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsProcessing(true);
     
-    // Simulate payment gateway delay (Paystack/Flutterwave style)
-    setTimeout(() => {
-      setIsProcessing(false);
-      navigate('/success');
-    }, 2500);
+    // Trigger Paystack Gateway
+    initializePayment(onSuccess, onClose);
   };
 
   return (
@@ -30,7 +62,7 @@ const Checkout = () => {
           <div className="flex-[2]">
             <h1 className="text-4xl font-light tracking-tight text-offblack mb-16">Secure Checkout</h1>
             
-            <form className="space-y-16" onSubmit={handlePayment}>
+            <form className="space-y-16" onSubmit={handleSubmit}>
               {/* Contact Information */}
               <section>
                 <div className="flex items-center space-x-4 mb-8">
@@ -40,15 +72,39 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="col-span-2">
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Full Name</label>
-                    <input required type="text" placeholder="e.g. Samuel Adekunle" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input 
+                      required 
+                      type="text" 
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      placeholder="e.g. Samuel Adekunle" 
+                      className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" 
+                    />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Email Address</label>
-                    <input required type="email" placeholder="samuel@example.com" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input 
+                      required 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="samuel@example.com" 
+                      className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" 
+                    />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Phone Number</label>
-                    <input required type="tel" placeholder="+234 800 000 0000" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input 
+                      required 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="+234 800 000 0000" 
+                      className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" 
+                    />
                   </div>
                 </div>
               </section>
@@ -62,16 +118,40 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 gap-6">
                    <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Shipping Address</label>
-                    <textarea required rows="3" placeholder="Street name, Building number, Apartment" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm resize-none"></textarea>
+                    <textarea 
+                      required 
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      rows="3" 
+                      placeholder="Street name, Building number, Apartment" 
+                      className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm resize-none"
+                    ></textarea>
                   </div>
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">City</label>
-                      <input required type="text" placeholder="Lagos" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                      <input 
+                        required 
+                        type="text" 
+                        name="city"
+                        value={formData.city}
+                        onChange={handleInputChange}
+                        placeholder="Lagos" 
+                        className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" 
+                      />
                     </div>
                     <div>
                       <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">State</label>
-                      <input required type="text" placeholder="Lagos State" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                      <input 
+                        required 
+                        type="text" 
+                        name="state"
+                        value={formData.state}
+                        onChange={handleInputChange}
+                        placeholder="Lagos State" 
+                        className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" 
+                      />
                     </div>
                   </div>
                 </div>
@@ -86,11 +166,11 @@ const Checkout = () => {
                 <div className="border border-gold p-8 bg-white shadow-xl relative overflow-hidden">
                    <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full -translate-y-16 translate-x-16"></div>
                    <div className="flex justify-between items-center mb-10 relative z-10">
-                     <span className="text-sm font-bold tracking-widest uppercase">Paystack Secure Checkout</span>
+                     <span className="text-sm font-bold tracking-widest uppercase text-offblack">Paystack Secure Checkout</span>
                      <CreditCard size={24} className="text-gold" />
                    </div>
-                   <p className="text-xs text-stone-400 leading-relaxed max-w-sm mb-0 relative z-10 font-bold tracking-widest uppercase">
-                     Secured and Encrypted Channel
+                   <p className="text-[10px] text-stone-400 leading-relaxed max-w-sm mb-0 relative z-10 font-bold tracking-[0.2em] uppercase">
+                     Secured Channel • Encrypted Transaction
                    </p>
                 </div>
               </section>
@@ -102,7 +182,7 @@ const Checkout = () => {
               >
                 {isProcessing ? (
                   <div className="flex items-center gap-3">
-                    <Loader2 size={18} className="animate-spin" /> Verifying Payment...
+                    <Loader2 size={18} className="animate-spin" /> Waiting for Gateway...
                   </div>
                 ) : (
                   <>

@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
-import { Link } from 'react-router-dom';
-import { CreditCard, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
+import { CreditCard, Truck, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
   const { total, subtotal, deliveryFee } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
+  const navigate = useNavigate();
+
+  const handlePayment = (e) => {
+    e.preventDefault();
+    setIsProcessing(true);
+    
+    // Simulate payment gateway delay (Paystack/Flutterwave style)
+    setTimeout(() => {
+      setIsProcessing(false);
+      navigate('/success');
+    }, 2500);
+  };
 
   return (
     <div className="min-h-screen bg-cream">
@@ -17,7 +30,7 @@ const Checkout = () => {
           <div className="flex-[2]">
             <h1 className="text-4xl font-light tracking-tight text-offblack mb-16">Secure Checkout</h1>
             
-            <form className="space-y-16" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-16" onSubmit={handlePayment}>
               {/* Contact Information */}
               <section>
                 <div className="flex items-center space-x-4 mb-8">
@@ -27,15 +40,15 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="col-span-2">
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Full Name</label>
-                    <input type="text" placeholder="e.g. Samuel Adekunle" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input required type="text" placeholder="e.g. Samuel Adekunle" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Email Address</label>
-                    <input type="email" placeholder="samuel@example.com" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input required type="email" placeholder="samuel@example.com" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                   </div>
                   <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Phone Number</label>
-                    <input type="tel" placeholder="+234 800 000 0000" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                    <input required type="tel" placeholder="+234 800 000 0000" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                   </div>
                 </div>
               </section>
@@ -49,22 +62,22 @@ const Checkout = () => {
                 <div className="grid grid-cols-1 gap-6">
                    <div>
                     <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">Shipping Address</label>
-                    <textarea rows="3" placeholder="Street name, Building number, Apartment" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm resize-none"></textarea>
+                    <textarea required rows="3" placeholder="Street name, Building number, Apartment" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm resize-none"></textarea>
                   </div>
                   <div className="grid grid-cols-2 gap-6">
                     <div>
                       <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">City</label>
-                      <input type="text" placeholder="Lagos" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                      <input required type="text" placeholder="Lagos" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                     </div>
                     <div>
                       <label className="block text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-2 ml-1">State</label>
-                      <input type="text" placeholder="Lagos State" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
+                      <input required type="text" placeholder="Lagos State" className="w-full bg-white border border-stone-100 p-5 text-sm focus:outline-none focus:border-gold transition-colors shadow-sm" />
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* Payment Section - Visualization */}
+              {/* Payment Section */}
               <section>
                 <div className="flex items-center space-x-4 mb-8">
                   <span className="w-10 h-10 rounded-full border border-gold text-gold flex items-center justify-center text-xs font-bold">03</span>
@@ -76,15 +89,27 @@ const Checkout = () => {
                      <span className="text-sm font-bold tracking-widest uppercase">Paystack Secure Checkout</span>
                      <CreditCard size={24} className="text-gold" />
                    </div>
-                   <p className="text-xs text-stone-400 leading-relaxed max-w-sm mb-0 relative z-10">
-                     You will be redirected to the secure Paystack gateway to complete your transaction using Card, Bank Transfer, or USSD.
+                   <p className="text-xs text-stone-400 leading-relaxed max-w-sm mb-0 relative z-10 font-bold tracking-widest uppercase">
+                     Secured and Encrypted Channel
                    </p>
                 </div>
               </section>
 
-              <Link to="/success" className="block w-full text-center bg-offblack text-white py-6 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gold transition-all shadow-2xl transform active:scale-[0.98] group">
-                Pay Securely ₦{total.toLocaleString()} <ArrowRight size={18} className="inline ml-3 group-hover:translate-x-2 transition-transform" />
-              </Link>
+              <button 
+                type="submit"
+                disabled={isProcessing || total === 0}
+                className="w-full bg-offblack text-white py-6 text-[11px] font-bold uppercase tracking-[0.4em] hover:bg-gold transition-all shadow-2xl relative flex items-center justify-center group"
+              >
+                {isProcessing ? (
+                  <div className="flex items-center gap-3">
+                    <Loader2 size={18} className="animate-spin" /> Verifying Payment...
+                  </div>
+                ) : (
+                  <>
+                    Authorize Payment ₦{total.toLocaleString()} <ArrowRight size={18} className="inline ml-3 group-hover:translate-x-2 transition-transform" />
+                  </>
+                )}
+              </button>
             </form>
           </div>
 
@@ -96,11 +121,11 @@ const Checkout = () => {
                 <div className="space-y-4 mb-10">
                    <div className="flex justify-between text-sm">
                       <span className="text-stone-400">Items Total</span>
-                      <span className="font-bold">₦{subtotal.toLocaleString()}</span>
+                      <span className="font-bold font-serif italic text-lg opacity-80">₦{subtotal.toLocaleString()}</span>
                    </div>
                    <div className="flex justify-between text-sm">
                       <span className="text-stone-400">Delivery</span>
-                      <span className="font-bold">₦{deliveryFee.toLocaleString()}</span>
+                      <span className="font-bold font-serif italic text-lg opacity-80">₦{deliveryFee.toLocaleString()}</span>
                    </div>
                 </div>
 
@@ -108,7 +133,7 @@ const Checkout = () => {
                   <span className="text-xs font-bold uppercase tracking-widest text-gold self-end mb-2">Total</span>
                   <span>₦{total.toLocaleString()}</span>
                 </div>
-                <p className="text-[9px] text-stone-300 uppercase tracking-widest font-bold text-right pt-2 border-t border-stone-100">All prices in Nigerian Naira (NGN)</p>
+                <p className="text-[9px] text-stone-300 uppercase tracking-widest font-bold text-right pt-2 border-t border-stone-100">Nigerian Naira (NGN)</p>
                 
                 <div className="mt-12 space-y-8">
                   <div className="flex space-x-5">

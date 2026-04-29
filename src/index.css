@@ -2,22 +2,24 @@
 @config "../tailwind.config.cjs";
 
 @theme {
-  --color-gold: #C8A165;
-  --color-cream: #F8F5F0;
-  --color-offblack: #1A1A1A;
+  --color-blush: #F8C8DC;
+  --color-rose: #E3C2C4;
+  --color-nude: #FFF7F8;
+  --color-charcoal: #2D2D2D;
   
   --font-serif: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
 }
 
 :root {
-  --primary: #C8A165;
-  --background: #F8F5F0;
-  --text: #1A1A1A;
+  --primary: #F8C8DC;
+  --secondary: #E3C2C4;
+  --background: #FFF7F8;
+  --text: #2D2D2D;
 }
 
 body {
-  @apply text-offblack bg-cream antialiased;
+  @apply text-charcoal bg-nude antialiased;
   font-family: var(--font-sans);
 }
 
@@ -31,15 +33,15 @@ h1, h2, h3, h4, .font-serif {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F8F5F0;
+  background: #FFF7F8;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #C8A165;
+  background: #E3C2C4;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A68554;
+  background: #F8C8DC;
 }
 
 @keyframes scroll-down {

@@ -24,8 +24,8 @@ const Checkout = () => {
   const config = {
     reference: (new Date()).getTime().toString(),
     email: formData.email,
-    amount: total * 100, // Amount in KOBO
-    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
+    amount: Math.round(total * 100), // Amount in KOBO, rounded to nearest integer
+    publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_f9173cebb2cb630c23b0afeb4fa7cd8684753cad',
   };
 
   const handleInputChange = (e) => {
@@ -33,10 +33,10 @@ const Checkout = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const onSuccess = (reference) => {
-    console.log("Payment Successful", reference);
+  const onSuccess = (response) => {
+    console.log("Payment Successful", response);
     setIsProcessing(false);
-    navigate('/success');
+    navigate('/success', { state: { reference: response.reference } });
   };
 
   const onClose = () => {
@@ -48,10 +48,27 @@ const Checkout = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    if (!config.publicKey) {
+      alert("Paystack Public Key is missing. Please check your .env file.");
+      return;
+    }
+
+    if (!formData.email) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     setIsProcessing(true);
     
     // Trigger Paystack Gateway
-    initializePayment(onSuccess, onClose);
+    try {
+      initializePayment(onSuccess, onClose);
+    } catch (error) {
+      console.error("Paystack Initialization Error:", error);
+      setIsProcessing(false);
+      alert("There was an error initializing the payment. Please check your configuration.");
+    }
   };
 
   return (

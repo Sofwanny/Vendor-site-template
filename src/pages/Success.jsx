@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useCart } from '../context/CartContext';
 import { Check, ArrowRight, Package, Calendar, ShieldCheck } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Success = () => {
   const { clearCart } = useCart();
+  const location = useLocation();
+  const orderReference = location.state?.reference || `GLOW-${Math.floor(Math.random() * 9000000 + 1000000)}`;
 
   // Clear the cart when the order is successful
   useEffect(() => {
@@ -38,7 +40,7 @@ const Success = () => {
           <div className="p-10 border-b border-rose/10 flex flex-col md:flex-row justify-between items-center bg-rose/5">
              <div className="text-center md:text-left mb-6 md:mb-0">
                <p className="text-[10px] font-medium uppercase tracking-widest text-stone-400 mb-2">Order Reference</p>
-               <p className="text-sm font-medium text-charcoal font-mono">#GLOW-{Math.floor(Math.random() * 9000000 + 1000000)}</p>
+               <p className="text-sm font-medium text-charcoal font-mono uppercase">{orderReference}</p>
              </div>
              <div className="text-center md:text-right">
                <p className="text-[10px] font-medium uppercase tracking-widest text-stone-400 mb-2">Expected Arrival</p>

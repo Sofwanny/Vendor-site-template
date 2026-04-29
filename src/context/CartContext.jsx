@@ -6,7 +6,7 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const DELIVERY_FEE = 2500; // Fixed delivery fee in NGN
+  const DELIVERY_FEE = 5000; // Fixed delivery fee (formatted as $5.00)
 
   const addToCart = (product) => {
     setCart((prevCart) => {
